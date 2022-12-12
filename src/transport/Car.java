@@ -1,5 +1,7 @@
 package transport;
 
+import java.time.LocalDate;
+
 public class Car {
     private final String brand;
     private final String model;
@@ -158,5 +160,72 @@ public class Car {
                 + color + " цвета, объем двигателя — " + engineVolume + " л.," + " коробка передач - " + transmission
                 + ", тип кузова - " + bodyType + ", регестрационный номер - " + registrationNumber +
                 ", количество мест - " + numberOfSeats + ", месяц для выбора колес - " + signSummerTires);
+
+
+    }
+
+    public static class Key {
+        private boolean remoteRun;
+        private boolean withoutKeyAccess;
+
+        public Key(boolean remoteRun, boolean withoutKeyAccess) {
+            this.remoteRun = remoteRun;
+            this.withoutKeyAccess = withoutKeyAccess;
+        }
+
+        public boolean isRemoteRun() {
+            return remoteRun;
+        }
+
+        public boolean isWithoutKeyAccess() {
+            return withoutKeyAccess;
+        }
+    }
+
+    public class Insurance {
+        private final LocalDate expireDate;
+        private final int cost;
+        private final String number;
+
+        public Insurance(LocalDate expireDate, int cost, String number) {
+            if (expireDate == null) {
+                expireDate = LocalDate.now().plusDays(365);
+            }
+            this.expireDate = expireDate;
+            if (cost <= 0) {
+                cost = 10_000;
+            }
+            this.cost = cost;
+            if (number == null || number.isEmpty()) {
+                number = "XXXYYYXXX";
+            }
+            this.number = number;
+        }
+
+        public void printCheckExpired() {
+            boolean expired = expireDate.isAfter(LocalDate.now());
+            if (expired) {
+                System.out.println("Нужно срочно поменять страховку");
+            }
+        }
+
+        public void printCheckNumber() {
+            boolean correct = number.length() == 9;
+            if (!correct) {
+                System.out.println("Номер страховки некорректный");
+            }
+        }
+
+        public LocalDate getExpireDate() {
+            return expireDate;
+        }
+
+        public int getCost() {
+            return cost;
+        }
+
+        public String getNumber() {
+            return number;
+        }
     }
 }
